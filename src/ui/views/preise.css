@@ -1,0 +1,38 @@
+.preise { display: flex; flex-direction: column; gap: var(--s-4); }
+.preise-block { background: var(--flaeche); border: 1px solid var(--rand); border-radius: var(--r-l); box-shadow: var(--schatten-1); padding: var(--s-5); }
+.preise-block h2 { font-size: var(--fs-xl); font-weight: 700; margin: 0 0 var(--s-3); }
+.preise-klein { font-size: var(--fs-s); color: var(--text-2); margin: var(--s-2) 0 0; }
+.preise-herleitung ul { margin: var(--s-2) 0; padding-left: var(--s-5); }
+.preise-herleitung li { margin: var(--s-1) 0; }
+.preise-fremd { margin: var(--s-2) 0 0; padding-left: var(--s-5); }
+
+.preise-tabelle-wrap { overflow-x: auto; border: 1px solid var(--rand); border-radius: var(--r-m); }
+.preise-tabelle { width: 100%; border-collapse: collapse; font-size: var(--fs-s); }
+.preise-tabelle th, .preise-tabelle td { padding: var(--s-3); border-bottom: 1px solid var(--rand); text-align: left; }
+.preise-tabelle thead th { background: var(--flaeche-2); color: var(--text-2); font-size: var(--fs-xs); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.preise-tabelle tbody th { font-weight: 650; }
+.preise-tabelle tbody tr:last-child > * { border-bottom: 0; }
+.preise-tabelle .zahl { text-align: right; white-space: nowrap; }
+.preise-tag { display: inline-block; font-weight: 650; font-size: var(--fs-xs); color: var(--ok-text); background: var(--ok-bg); border: 1px solid var(--ok-rand); border-radius: var(--r-pille); padding: 0 8px; }
+
+.pkt-figur { margin: 0; }
+.pkt-svg { width: 100%; height: auto; display: block; }
+.pkt-legende { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-5); margin: var(--s-3) 0 0; padding: 0; font-size: var(--fs-s); }
+.pkt-legende li { display: inline-flex; align-items: center; gap: 6px; }
+.pkt-anz { color: var(--text-2); }
+.pkt-achse { font-size: var(--fs-xs); color: var(--text-2); margin-top: var(--s-1); }
+
+/* Kartenliste statt Tabelle auf schmalen Bildschirmen: kein horizontales Scrollen */
+.preise-karten { display: none; list-style: none; margin: 0; padding: 0; gap: var(--s-3); }
+.preise-karte { border: 1px solid var(--rand); border-radius: var(--r-m); padding: var(--s-3) var(--s-4); background: var(--flaeche-2); }
+.preise-karte-kopf { display: flex; justify-content: space-between; align-items: center; gap: var(--s-2); margin-bottom: var(--s-2); }
+.preise-karte dl { margin: 0; }
+.preise-karte dl > div { display: flex; justify-content: space-between; gap: var(--s-3); padding: 6px 0; border-top: 1px solid var(--rand); font-size: var(--fs-s); }
+.preise-karte dt { color: var(--text-2); }
+.preise-karte dd { margin: 0; text-align: right; font-weight: 600; }
+@media (max-width: 700px) {
+  .preise-tabelle-gross { display: none; }
+  .preise-karten { display: grid; }
+  .preise-block { padding: var(--s-4); }
+}
+@media print { .preise-block, .preise-tabelle tr { break-inside: avoid; } }

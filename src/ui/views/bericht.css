@@ -1,0 +1,57 @@
+.bericht-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-2); }
+.bericht-liste a {
+  position: relative; display: flex; align-items: center; min-height: 56px; padding: 0 var(--s-10) 0 var(--s-4);
+  border: 1px solid var(--rand); border-radius: var(--r-l); box-shadow: var(--schatten-1); text-decoration: none; color: var(--text); background: var(--flaeche); font-weight: 600;
+}
+.bericht-liste a::after { content: ''; position: absolute; right: 18px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-right: 2px solid var(--text-3); border-top: 2px solid var(--text-3); transform: rotate(45deg); }
+.bericht-liste a:hover { border-color: var(--akzent-rand); box-shadow: var(--schatten-2); }
+.bericht-werkzeuge { display: flex; justify-content: space-between; align-items: center; gap: var(--s-3); flex-wrap: wrap; }
+.bericht-zurueck { display: inline-flex; align-items: center; min-height: var(--tap); font-weight: 600; }
+
+/* Bericht-Blatt: auf dem Bildschirm wie ein Papierblatt (A4-Breite), im Druck randlos */
+.bericht-seite { min-width: 0; background: var(--flaeche); border: 1px solid var(--rand); border-radius: var(--r-l); box-shadow: var(--schatten-2); padding: var(--s-6); max-width: 210mm; margin: 0 auto; width: 100%; }
+.bericht-kopf { border-bottom: 3px solid var(--akzent); padding-bottom: var(--s-3); margin-bottom: var(--s-5); }
+.bericht-kopf h2 { margin: 0; font-size: var(--fs-xl); font-weight: 750; letter-spacing: -.02em; }
+.bericht-fahrzeug { margin: var(--s-1) 0 0; color: var(--text-2); font-size: var(--fs-s); }
+.bericht-kacheln { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--s-3); }
+.bericht-kacheln .kachel { box-shadow: none; padding: var(--s-4); }
+.bericht-kacheln .kachel__zahl { font-size: var(--fs-2xl); }
+.bericht-deltas { display: flex; flex-direction: column; gap: 2px; }
+.bericht-block { margin-top: var(--s-6); }
+.bericht-block h3 { font-size: var(--fs-l); font-weight: 700; margin: 0 0 var(--s-2); }
+.bericht-klein { font-size: var(--fs-s); color: var(--text-2); }
+.bericht-herleitung { margin: var(--s-2) 0; line-height: 1.8; }
+.mb-svg { width: 100%; max-width: 480px; height: auto; display: block; }
+
+.bericht-tabelle { width: 100%; border-collapse: collapse; font-size: var(--fs-s); }
+.bericht-tabelle th, .bericht-tabelle td { padding: var(--s-2) var(--s-2); border-bottom: 1px solid var(--rand); text-align: left; }
+.bericht-tabelle thead th { color: var(--text-2); font-size: var(--fs-xs); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; border-bottom: 2px solid var(--text); }
+.bericht-tabelle .zahl { text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 400px) {
+  .bericht-seite { padding: var(--s-4); }
+  .bericht-tabelle { font-size: var(--fs-xs); }
+  .bericht-tabelle th, .bericht-tabelle td { padding: var(--s-2) 3px; }
+}
+
+.bericht-luecken { margin-top: var(--s-6); padding: var(--s-3) var(--s-4); border: 1px solid var(--warn-rand); border-left: 4px solid var(--warn-rand); background: var(--warn-bg); color: var(--warn-text); border-radius: var(--r-m); }
+.bericht-luecken h3 { margin: 0 0 var(--s-2); font-size: var(--fs-m); }
+.bericht-luecken ul { margin: 0; padding-left: var(--s-5); font-size: var(--fs-s); }
+.bericht-fuss { margin-top: var(--s-6); padding-top: var(--s-2); border-top: 1px solid var(--rand-stark); font-size: var(--fs-xs); color: var(--text-2); }
+.bericht-fuss p { margin: var(--s-1) 0; }
+
+@media print {
+  @page { size: A4; margin: 16mm 16mm 18mm; }
+  body { background: #fff !important; font-size: 10pt; }
+  nav, header[role="banner"], .tabbar, .navigation, .bericht-werkzeuge, .seite__kopf { display: none !important; }
+  .bericht-seite { border: none; box-shadow: none; padding: 0; max-width: none; margin: 0; border-radius: 0; }
+  .bericht-kopf h2 { font-size: 18pt; }
+  .bericht-kacheln { grid-template-columns: repeat(2, 1fr); gap: 4mm; }
+  .bericht-kacheln .kachel { border: 1px solid #b8c4c8; border-radius: 3mm; padding: 4mm; background: #fff !important; }
+  .bericht-kacheln .kachel__zahl { font-size: 20pt; color: #000; }
+  .bericht-kacheln > *, .bericht-block, .bericht-luecken, .bericht-tabelle tr, .bericht-fuss { break-inside: avoid; page-break-inside: avoid; }
+  .bericht-seite details > :not(summary) { display: none; }
+  .bericht-seite details > summary { display: none; }
+  .bericht-tabelle th, .bericht-tabelle td { border-bottom: 0.3mm solid #b8c4c8; }
+  .bericht-luecken { background: #fff; border-color: #000; border-left-width: 1.2mm; color: #000; }
+  .bericht-fuss { color: #000; border-top: 0.3mm solid #000; }
+}

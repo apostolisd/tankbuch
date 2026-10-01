@@ -1,0 +1,133 @@
+/* Erfassung: ergänzende Stile; Grundstile (Feld, Knopf, Hinweis, Status) kommen aus styles.css. Nur Tokens. */
+.cap { display: grid; gap: var(--s-4); }
+.cap-einleitung { margin: 0; color: var(--text-2); }
+.cap-klein { font-size: var(--fs-s); color: var(--text-2); margin: 0; }
+.cap-liste { margin: 0; padding-left: var(--s-5); }
+
+/* Ein Fotofeld für 1–2 Bilder */
+.cap-aufnahme {
+  border: 1px solid var(--rand); border-radius: var(--r-l); padding: var(--s-4); box-shadow: var(--schatten-1);
+  display: grid; gap: var(--s-3); background: var(--flaeche); align-content: start;
+}
+.cap-aufnahme__kopf { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-3); }
+.cap-aufnahme__titel { font-size: var(--fs-l); font-weight: 700; margin: 0; }
+.cap-aufnahme__zahl { font-size: var(--fs-s); color: var(--text-2); font-weight: 600; white-space: nowrap; }
+.cap-aufnahme__leer {
+  min-height: 140px; display: grid; place-items: center; align-content: center; gap: var(--s-2); border: 2px dashed var(--rand-stark);
+  border-radius: var(--r-m); color: var(--text-2); background: var(--flaeche-2);
+}
+.cap-aufnahme__leer .cap-icon { width: 32px; height: 32px; color: var(--text-3); }
+.cap-aufnahme__aktionen { display: flex; gap: var(--s-2); flex-wrap: wrap; align-items: center; }
+.cap-icon { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.cap-datei-label { gap: var(--s-2); }
+
+.cap-kacheln { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 640px; }
+.cap-aufnahme__leer { max-width: 640px; }
+.cap-kachel { display: grid; gap: var(--s-1); align-content: start; justify-items: start; min-width: 0; }
+.cap-kachel__bild {
+  position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: var(--r-m); overflow: hidden;
+  background: var(--bg-tief); border: 1px solid var(--rand); display: grid; place-items: center;
+}
+.cap-kachel__bild img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cap-kachel__platz { font-size: var(--fs-l); color: var(--text-3); }
+.cap-kachel__nr {
+  position: absolute; left: var(--s-2); top: var(--s-2); padding: 2px 10px; border-radius: var(--r-pille);
+  background: var(--flaeche); color: var(--text); font-size: var(--fs-xs); font-weight: 700; box-shadow: var(--schatten-1);
+}
+.cap-kachel__fehler { color: var(--fehler-text); margin: 0; font-weight: 600; font-size: var(--fs-s); }
+.cap-kachel__status { margin: 0; color: var(--text-2); font-size: var(--fs-s); }
+.cap-kachel .knopf { margin-left: calc(var(--s-4) * -1); }
+
+/* Bestätigen: Zuordnung der Fotos */
+.cap-zuordnung {
+  display: grid; gap: var(--s-3); justify-items: start; padding: var(--s-4); border-radius: var(--r-l);
+  background: var(--akzent-weich); border: 1px solid var(--akzent-rand);
+}
+.cap-zuordnung > .hinweis { justify-self: stretch; }
+.cap-zuordnung__titel { margin: 0; font-size: var(--fs-xs); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--info-text); }
+.cap-zuordnung__liste { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-2); }
+.cap-zuordnung__liste li { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: center; }
+.cap-foto { display: grid; gap: var(--s-2); }
+.cap-wahl { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: center; }
+.cap-wahl__titel { float: left; margin-right: var(--s-2); font-size: var(--fs-s); font-weight: 600; color: var(--text-2); padding: 0; }
+.cap-wahl__option {
+  display: inline-flex; align-items: center; gap: var(--s-2); min-height: var(--tap); padding: 6px var(--s-4);
+  border-radius: var(--r-pille); border: 1px solid var(--akzent-rand); background: var(--flaeche); color: var(--akzent);
+  font-size: var(--fs-s); font-weight: 600; cursor: pointer;
+}
+.cap-wahl__option:hover { background: var(--akzent-weich); }
+.cap-wahl__option--aktiv { background: var(--akzent); border-color: var(--akzent); color: var(--akzent-text); }
+.cap-wahl__option--aktiv:hover { background: var(--akzent-hover); }
+.cap-wahl__option input { width: 18px; height: 18px; margin: 0; accent-color: var(--akzent-text); }
+.cap-wahl__option:focus-within { outline: 3px solid var(--fokus); outline-offset: 2px; }
+
+/* Dateiauswahl: Eingabe unsichtbar, per Tastatur erreichbar; Label dient als Knopf. */
+.cap-datei-label { position: relative; cursor: pointer; }
+.cap-datei-label--aus { opacity: .5; cursor: not-allowed; }
+.cap-datei { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.cap-datei-label:focus-within { outline: 3px solid var(--fokus); outline-offset: 2px; }
+
+.cap-fortschritt { list-style: none; margin: 0; padding: var(--s-3) var(--s-4); display: flex; gap: var(--s-4); flex-wrap: wrap; background: var(--akzent-weich); border-radius: var(--r-m); }
+.cap-fortschritt li { color: var(--text-2); }
+.cap-fortschritt--aktiv { font-weight: 700; color: var(--text) !important; }
+.cap-fortschritt--fertig { color: var(--ok-text) !important; }
+
+.cap-aktionen { display: flex; gap: var(--s-2); flex-wrap: wrap; align-items: center; }
+.cap-aktionen > * { min-height: 48px; }
+
+/* Bestätigen: Foto über dem Formular (Handy), nebeneinander ab 900 px */
+.cap-bestaetigen { display: grid; gap: var(--s-4); grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 900px) {
+  .cap-bestaetigen { grid-template-columns: minmax(300px, 2fr) minmax(360px, 3fr); gap: var(--s-6); }
+  .cap-fotos { position: sticky; top: var(--s-6); }
+}
+.cap-fotos { display: grid; gap: var(--s-4); }
+.cap-formular { display: grid; gap: var(--s-4); min-width: 0; }
+.cap-legende { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.cap-gruppe { border: 1px solid var(--rand); border-radius: var(--r-l); background: var(--flaeche); box-shadow: var(--schatten-1); padding: var(--s-4); margin: 0; min-width: 0; display: grid; gap: var(--s-4); }
+.cap-gruppe__titel { font-size: var(--fs-xs); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-2); padding: 0 var(--s-2); }
+.cap-zeile { display: grid; gap: var(--s-3); grid-template-columns: 1fr 1fr; }
+@media (max-width: 420px) { .cap-zeile { grid-template-columns: 1fr; } }
+.cap-formular input[type="date"], .cap-formular input[type="time"], .cap-formular .feld__eingabe { min-height: 48px; }
+.cap-manuell { font-size: var(--fs-s); }
+/* Wert stammt aus dem Aufnahmedatum des Fotos (EXIF): Zusatz unter «? Unsicher gelesen – bitte prüfen» */
+.cap-ausfoto { font-size: var(--fs-s); color: var(--text-2); }
+.cap-chf { margin: 0; padding: var(--s-2) var(--s-3); background: var(--akzent-weich); color: var(--info-text); border-radius: var(--r-s); }
+
+.cap-zoom { margin: 0; display: grid; gap: var(--s-2); background: var(--flaeche); border: 1px solid var(--rand); border-radius: var(--r-l); box-shadow: var(--schatten-1); padding: var(--s-3); }
+.cap-zoom__titel { font-weight: 700; }
+.cap-zoom__rahmen { overflow: auto; max-height: 36vh; border-radius: var(--r-m); background: var(--bg-tief); }
+.cap-zoom__bild { display: block; max-width: none; height: auto; cursor: zoom-in; }
+.cap-zoom__knoepfe { display: flex; gap: var(--s-2); align-items: center; flex-wrap: wrap; }
+.cap-zoom__knoepfe .knopf { min-width: 48px; padding: 6px var(--s-3); }
+.cap-zoom__wert { min-width: 3.5rem; text-align: center; font-weight: 600; }
+
+.cap-schalter { display: flex; gap: var(--s-3); align-items: flex-start; min-height: var(--tap); padding: var(--s-1) 0; cursor: pointer; }
+.cap-schalter input[type="checkbox"] { width: 24px; height: 24px; flex: none; margin-top: 2px; accent-color: var(--akzent); }
+
+.cap-pruefliste { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-2); }
+.cap-pruef {
+  display: flex; gap: var(--s-3); align-items: center; flex-wrap: wrap; padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-m); border: 1px solid var(--rand); font-size: var(--fs-s);
+}
+.cap-pruef--fehler { background: var(--fehler-bg); border-color: var(--fehler-rand); color: var(--fehler-text); }
+.cap-pruef--warnung { background: var(--warn-bg); border-color: var(--warn-rand); color: var(--warn-text); }
+.cap-pruef__symbol { font-weight: 700; font-size: var(--fs-l); }
+.cap-pruef__text { flex: 1 1 12rem; }
+.cap-ok { color: var(--ok-text); margin: 0; font-weight: 600; }
+
+.cap-loeschen { border: 1.5px solid var(--fehler-rand); border-radius: var(--r-l); padding: var(--s-4); display: grid; gap: var(--s-3); background: var(--fehler-bg); color: var(--fehler-text); }
+.cap-loeschen__titel { margin: 0; font-size: var(--fs-l); }
+
+.cap-rueckmeldung { display: grid; gap: var(--s-3); background: var(--flaeche); border: 1px solid var(--ok-rand); border-radius: var(--r-l); box-shadow: var(--schatten-1); padding: var(--s-6); }
+.cap-rueckmeldung__titel { font-size: var(--fs-xl); font-weight: 700; margin: 0; color: var(--ok-text); }
+.cap-rueckmeldung__segment { font-size: var(--fs-l); margin: 0; }
+
+/* Speichern-Leiste: auf dem Handy über der Tab-Leiste angeheftet */
+@media (max-width: 899px) {
+  .cap-formular > .cap-aktionen {
+    position: sticky; bottom: calc(var(--nav-h) + env(safe-area-inset-bottom)); z-index: 10;
+    background: rgba(243, 246, 247, .96); padding: var(--s-2) 0; margin: 0 calc(var(--s-4) * -1); padding-inline: var(--s-4);
+  }
+}
+@media (min-width: 900px) { .cap-zoom__rahmen { max-height: 50vh; } }

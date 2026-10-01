@@ -1,0 +1,34 @@
+.vl-kopf { margin-bottom: var(--s-4); }
+.vl-zustand { padding: var(--s-6) var(--s-4); text-align: center; border: 1.5px dashed var(--rand-stark); border-radius: var(--r-l); background: var(--flaeche); color: var(--text-2); }
+.vl-diagramm, .vl-vergleich { background: var(--flaeche); border: 1px solid var(--rand); border-radius: var(--r-l); box-shadow: var(--schatten-1); padding: var(--s-5); }
+.vl-umschalter { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-4); }
+.vl-modus {
+  min-height: var(--tap); padding: var(--s-2) var(--s-4); border: 1.5px solid var(--rand); border-radius: var(--r-pille); background: var(--flaeche-2);
+  color: var(--text); font: inherit; font-size: var(--fs-s); font-weight: 600; cursor: pointer; transition: background-color .15s, border-color .15s;
+}
+.vl-modus:hover { background: var(--akzent-weich); border-color: var(--akzent-rand); }
+.vl-modus[aria-pressed='true'] { border-color: var(--akzent); background: var(--akzent); color: var(--akzent-text); }
+.vl-modus:focus-visible { outline: 3px solid var(--fokus); outline-offset: 2px; }
+.vl-fussnote, .vl-n { font-size: var(--fs-s); color: var(--text-2); margin: var(--s-2) 0; }
+.vl-kacheln { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: var(--s-4); align-items: start; }
+.vl-h2 { font-size: var(--fs-xl); font-weight: 700; margin: 0 0 var(--s-3); }
+.vl-liste { margin: var(--s-1) 0; padding-left: var(--s-5); font-size: var(--fs-s); }
+.vl-liste li { margin: var(--s-2) 0; }
+.vl-wahl { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-bottom: var(--s-4); }
+.vl-feldset { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-3); border: 1px solid var(--rand); border-radius: var(--r-m); padding: var(--s-3) var(--s-4); background: var(--flaeche-2); }
+.vl-feldset legend { font-size: var(--fs-xs); font-weight: 700; color: var(--text-2); letter-spacing: .04em; text-transform: uppercase; padding: 0 var(--s-2); }
+.vl-feldset label { display: flex; flex-direction: column; font-size: var(--fs-s); font-weight: 600; gap: 4px; }
+.vl-feldset input { min-height: 48px; font: inherit; padding: 0 var(--s-3); border: 1.5px solid var(--rand-stark); border-radius: var(--r-m); background: var(--flaeche); color: var(--text); }
+.vl-fehler { color: var(--fehler-text); font-weight: 650; align-self: center; }
+.vl-tabellenbox { overflow-x: auto; border: 1px solid var(--rand); border-radius: var(--r-m); }
+.vl-tabelle { width: 100%; border-collapse: collapse; font-size: var(--fs-s); }
+.vl-tabelle th, .vl-tabelle td { padding: var(--s-3); border-bottom: 1px solid var(--rand); text-align: left; vertical-align: top; }
+.vl-tabelle thead th { background: var(--flaeche-2); color: var(--text-2); font-size: var(--fs-xs); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.vl-tabelle tbody tr:last-child > * { border-bottom: 0; }
+.vl-tabelle .r { text-align: right; white-space: nowrap; }
+.vl-nur-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 700px) {
+  .vl-diagramm, .vl-vergleich { padding: var(--s-4); }
+  .vl-tabelle { font-size: var(--fs-xs); }
+  .vl-tabelle th, .vl-tabelle td { padding: var(--s-2); }
+}

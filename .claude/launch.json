@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "tankbuch",
+      "runtimeExecutable": "powershell",
+      "runtimeArgs": ["-NoProfile", "-Command", "$env:Path += ';C:/Program Files/nodejs'; npm.cmd run dev -- --port 5173 --strictPort"],
+      "port": 5173
+    },
+    {
+      "name": "tankbuch-demo",
+      "runtimeExecutable": "powershell",
+      "runtimeArgs": ["-NoProfile", "-Command", "$env:Path += ';C:/Program Files/nodejs'; npm.cmd run demo -- --port 5174 --strictPort"],
+      "port": 5174
+    }
+  ]
+}

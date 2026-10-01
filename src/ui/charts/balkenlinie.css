@@ -1,0 +1,23 @@
+.bl { width: 100%; }
+.bl-scroll { overflow-x: auto; }
+.bl svg { display: block; font-family: inherit; }
+.bl-achse { stroke: var(--c-achse); stroke-width: 1; }
+.bl-raster { stroke: var(--c-raster); stroke-width: 1; }
+.bl-tick { font-size: 12px; fill: var(--c-tick); }
+.bl-balken { fill: var(--c-serie-1); }
+.bl-balken-aus { fill: url(#bl-schraffur); stroke: var(--c-ausreisser); stroke-width: 1.5; }
+.bl-luecke { fill: none; stroke: var(--c-luecke); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.bl-luecke-text { font-size: 12px; fill: var(--c-tick); font-weight: 700; text-anchor: middle; }
+.bl-linie { fill: none; stroke: var(--c-linie); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.bl-punkt { fill: var(--flaeche); stroke: var(--c-linie); stroke-width: 2; }
+.bl-marke { fill: var(--c-marke); stroke: var(--flaeche); stroke-width: 1; }
+.bl-flaeche { cursor: pointer; }
+.bl-flaeche rect.bl-treffer { fill: transparent; }
+.bl-flaeche:focus { outline: none; }
+.bl-flaeche:focus rect.bl-treffer, .bl-flaeche.aktiv rect.bl-treffer { fill: rgba(10, 99, 120, .1); stroke: var(--akzent); stroke-width: 2; rx: 4; }
+.bl-detail { margin: var(--s-3) 0; padding: var(--s-3) var(--s-4); border-radius: var(--r-m); background: var(--flaeche-2); border: 1px solid var(--rand); min-height: 3.5rem; font-size: var(--fs-s); color: var(--text-2); }
+.bl-detail strong { color: var(--text); }
+.bl-legende { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-5); list-style: none; padding: 0; margin: var(--s-3) 0; font-size: var(--fs-s); }
+.bl-legende li { display: flex; align-items: center; gap: var(--s-2); }
+.bl-legende svg { flex: none; }
+.bl-leer { padding: var(--s-6); text-align: center; color: var(--text-2); border: 1.5px dashed var(--rand-stark); border-radius: var(--r-m); }
