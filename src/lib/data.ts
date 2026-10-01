@@ -339,20 +339,30 @@ export async function meldeAb(): Promise<void> {
 }
 
 /**
- * Anmeldung mit dem Code aus der E-Mail (statt Link). Nötig für die App auf dem iPhone-Homescreen:
- * sie hat einen eigenen Speicher, der Link öffnet sich aber in Safari.
+ * Anmeldung mit E-Mail und Passwort. Nötig für die App auf dem iPhone-Homescreen: sie hat einen
+ * eigenen Speicher, der Link aus der Mail öffnet sich aber in Safari. Die Sitzung bleibt danach bestehen.
  */
-export async function pruefeAnmeldecode(email: string, code: string): Promise<void> {
+export async function meldeMitPasswortAn(email: string, passwort: string): Promise<void> {
   pruefeKonfig('Anmeldung');
-  const { error } = await supabase.auth.verifyOtp({ email, token: code, type: 'email' });
+  const { error } = await supabase.auth.signInWithPassword({ email, password: passwort });
   if (error) {
-    if (/expired|invalid/i.test(error.message)) {
-      throw new Error('Der Code ist falsch oder abgelaufen. Bitte prüfen oder einen neuen Code anfordern.');
+    if (/invalid login|invalid credentials/i.test(error.message)) {
+      throw new Error('E-Mail oder Passwort stimmt nicht. Noch kein Passwort? Einmal per Link anmelden und unter Einstellungen eines festlegen.');
     }
-    if (/rate limit|too many/i.test(error.message)) {
-      throw new Error('Zu viele Versuche. Bitte kurz warten und erneut versuchen.');
-    }
+    if (/rate limit|too many/i.test(error.message)) throw new Error('Zu viele Versuche. Bitte kurz warten.');
     throw fehler('Anmeldung', error);
+  }
+}
+
+/** Passwort für das angemeldete Konto festlegen bzw. ändern. */
+export async function setzePasswort(passwort: string): Promise<void> {
+  if (DEMO) return;
+  const { error } = await supabase.auth.updateUser({ password: passwort });
+  if (error) {
+    if (/should be at least|weak|short/i.test(error.message)) throw new Error('Das Passwort ist zu kurz oder zu schwach (mindestens 8 Zeichen).');
+    if (/same.*password|different from the old/i.test(error.message)) throw new Error('Das ist bereits dein aktuelles Passwort.');
+    if (/reauth/i.test(error.message)) throw new Error('Bitte einmal ab- und wieder anmelden und dann erneut versuchen.');
+    throw fehler('Passwort', error);
   }
 }
 

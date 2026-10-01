@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'preact/hooks';
 import { istMarkiert, segmentSchluessel, verbrauchsGrenzenText, verwaisteMarkierungen, type Segment } from '../../core';
-import { benenneTankstelleUm, holeAliase, meldeAb, speichereFahrzeug } from '../../lib/data';
+import { benenneTankstelleUm, holeAliase, meldeAb, setzePasswort, speichereFahrzeug } from '../../lib/data';
 import { datum, km, lPro100, parseZahl, zahl } from '../../lib/format';
 import { leereStore, useDaten } from '../../lib/store';
 import { Feld, Hinweis, Knopf, Seite, Status } from '../components';
@@ -76,6 +76,26 @@ export default function Einstellungen() {
   const verwaist = verwaisteMarkierungen(segmente, einst);
   const bereinige = () => {
     void setEinst({ ...einst, unvollstaendigeSegmente: einst.unvollstaendigeSegmente.filter((m) => !verwaist.includes(m)) });
+  };
+
+  // Passwort (für die Anmeldung in der App auf dem iPhone-Homescreen)
+  const [pw1, setPw1] = useState('');
+  const [pw2, setPw2] = useState('');
+  const [pwLaeuft, setPwLaeuft] = useState(false);
+  const passwortSpeichern = async (ev: Event) => {
+    ev.preventDefault();
+    if (pw1.length < 8) { melde('fehler', 'Das Passwort braucht mindestens 8 Zeichen.'); return; }
+    if (pw1 !== pw2) { melde('fehler', 'Die beiden Passwörter stimmen nicht überein.'); return; }
+    setPwLaeuft(true);
+    try {
+      await setzePasswort(pw1);
+      setPw1(''); setPw2('');
+      melde('ok', 'Passwort gespeichert. Du kannst dich jetzt mit E-Mail und Passwort anmelden, auch in der App auf dem Homescreen.');
+    } catch (err) {
+      melde('fehler', fehlerText(err));
+    } finally {
+      setPwLaeuft(false);
+    }
   };
 
   const abmelden = async () => {
@@ -195,10 +215,22 @@ export default function Einstellungen() {
       <section class="block" aria-labelledby="h-foto">
         <h2 id="h-foto" class="abschnitt">Fotos und Daten</h2>
         <Hinweis stufe="info">
-          Belege und Tacho-Fotos liegen privat in deinem eigenen Supabase-Projekt (Frankfurt). Zum Auslesen werden sie
+          Belege und Tacho-Fotos liegen privat in deinem eigenen Supabase-Projekt (EU). Zum Auslesen werden sie
           kurz an Anthropic übertragen. Beim Löschen eines Eintrags bleiben die Fotos erhalten, ausser du bestätigst
           ausdrücklich, dass sie mitgelöscht werden.
         </Hinweis>
+      </section>
+
+      <section class="block" aria-labelledby="h-pw">
+        <h2 id="h-pw" class="abschnitt">Passwort</h2>
+        <p>Mit einem Passwort meldest du dich ohne E-Mail-Link an. Das braucht die App auf dem iPhone-Homescreen.</p>
+        <form class="formular" onSubmit={passwortSpeichern} noValidate>
+          <Feld label="Neues Passwort (mind. 8 Zeichen)" type="password" autoComplete="new-password" value={pw1}
+            onInput={(e: Event) => setPw1((e.currentTarget as HTMLInputElement).value)} />
+          <Feld label="Passwort wiederholen" type="password" autoComplete="new-password" value={pw2}
+            onInput={(e: Event) => setPw2((e.currentTarget as HTMLInputElement).value)} />
+          <Knopf type="submit" disabled={pwLaeuft}>{pwLaeuft ? 'Wird gespeichert …' : 'Passwort speichern'}</Knopf>
+        </form>
       </section>
 
       <section class="block">
