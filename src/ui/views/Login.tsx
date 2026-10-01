@@ -1,5 +1,5 @@
 import { useState } from 'preact/hooks';
-import { sendeMagicLink } from '../../lib/data';
+import { pruefeAnmeldecode, sendeMagicLink } from '../../lib/data';
 import { konfiguriert } from '../../lib/supabase';
 import { Feld, Hinweis, Knopf, Seite } from '../components';
 
@@ -25,6 +25,8 @@ export default function Login() {
   const [sendet, setSendet] = useState(false);
   const [gesendet, setGesendet] = useState(false);
   const [fehler, setFehler] = useState<string | null>(null);
+  const [code, setCode] = useState('');
+  const [prueft, setPrueft] = useState(false);
 
   if (!konfiguriert) {
     return (
@@ -57,27 +59,55 @@ export default function Login() {
     }
   };
 
+  const codePruefen = async (e: Event) => {
+    e.preventDefault();
+    const c = code.replace(/\D/g, '');
+    if (c.length < 6) {
+      setFehler('Bitte den Code aus der E-Mail eingeben (nur Ziffern).');
+      return;
+    }
+    setFehler(null);
+    setPrueft(true);
+    try {
+      await pruefeAnmeldecode(email.trim(), c);
+      // Die App wechselt über onAuthStateChange automatisch in die Ansicht.
+    } catch (err) {
+      setFehler(err instanceof Error ? err.message : 'Die Anmeldung mit dem Code hat nicht geklappt.');
+    } finally {
+      setPrueft(false);
+    }
+  };
+
   return (
     <Seite titel="Anmelden">
       {linkFehler && !gesendet ? <Hinweis stufe="fehler">{linkFehler}</Hinweis> : null}
       {gesendet ? (
         <>
           <Hinweis stufe="ok">
-            Link gesendet an <strong>{email.trim()}</strong>. Bitte das E-Mail öffnen und auf den Link tippen.
-            Auf dem iPhone den Link im gleichen Gerät öffnen; er ist nur kurz gültig.
+            E-Mail gesendet an <strong>{email.trim()}</strong>. Tippe den <strong>Code</strong> aus der E-Mail hier ein.
+            Das funktioniert auch in der App auf dem Homescreen. Am PC kannst du stattdessen auf den Link tippen.
           </Hinweis>
-          <p><Knopf variante="sekundaer" onClick={() => setGesendet(false)}>Andere Adresse verwenden</Knopf></p>
+          <form class="formular" onSubmit={codePruefen} noValidate>
+            <Feld
+              label="Code aus der E-Mail" type="text" inputMode="numeric" autoComplete="one-time-code"
+              maxLength={10} value={code}
+              onInput={(e: Event) => setCode((e.currentTarget as HTMLInputElement).value)}
+            />
+            {fehler ? <Hinweis stufe="fehler">{fehler}</Hinweis> : null}
+            <Knopf type="submit" gross disabled={prueft}>{prueft ? 'Wird geprüft …' : 'Anmelden'}</Knopf>
+          </form>
+          <p><Knopf variante="sekundaer" onClick={() => { setGesendet(false); setCode(''); setFehler(null); }}>Neuen Code anfordern / andere Adresse</Knopf></p>
         </>
       ) : (
         <form class="formular" onSubmit={senden} noValidate>
-          <p>Wir senden dir einen Anmeldelink per E-Mail. Ein Passwort ist nicht nötig.</p>
+          <p>Wir senden dir einen Anmeldecode per E-Mail. Ein Passwort ist nicht nötig.</p>
           <Feld
             label="E-Mail-Adresse" type="email" inputMode="email" autoComplete="email"
             autoCapitalize="none" value={email} required
             onInput={(e: Event) => setEmail((e.currentTarget as HTMLInputElement).value)}
           />
           {fehler ? <Hinweis stufe="fehler">{fehler}</Hinweis> : null}
-          <Knopf type="submit" gross disabled={sendet}>{sendet ? 'Wird gesendet …' : 'Anmeldelink senden'}</Knopf>
+          <Knopf type="submit" gross disabled={sendet}>{sendet ? 'Wird gesendet …' : 'Code senden'}</Knopf>
         </form>
       )}
     </Seite>

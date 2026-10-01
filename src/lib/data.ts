@@ -338,6 +338,24 @@ export async function meldeAb(): Promise<void> {
   if (error) throw fehler('Abmelden', error);
 }
 
+/**
+ * Anmeldung mit dem Code aus der E-Mail (statt Link). Nötig für die App auf dem iPhone-Homescreen:
+ * sie hat einen eigenen Speicher, der Link öffnet sich aber in Safari.
+ */
+export async function pruefeAnmeldecode(email: string, code: string): Promise<void> {
+  pruefeKonfig('Anmeldung');
+  const { error } = await supabase.auth.verifyOtp({ email, token: code, type: 'email' });
+  if (error) {
+    if (/expired|invalid/i.test(error.message)) {
+      throw new Error('Der Code ist falsch oder abgelaufen. Bitte prüfen oder einen neuen Code anfordern.');
+    }
+    if (/rate limit|too many/i.test(error.message)) {
+      throw new Error('Zu viele Versuche. Bitte kurz warten und erneut versuchen.');
+    }
+    throw fehler('Anmeldung', error);
+  }
+}
+
 export async function sendeMagicLink(email: string): Promise<void> {
   pruefeKonfig('Anmeldung');
   const { error } = await supabase.auth.signInWithOtp({
